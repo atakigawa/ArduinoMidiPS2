@@ -25,8 +25,9 @@
 
 #include <Arduino.h>
 
-extern const PROGMEM uint8_t g_standardKeyTable[];
 extern const PROGMEM uint8_t g_extendedKeyTable[];
+extern const PROGMEM uint8_t g_standardKeyTable0[];
+extern const PROGMEM uint8_t g_standardKeyTable1[];
 
 class KeyTable
 {
