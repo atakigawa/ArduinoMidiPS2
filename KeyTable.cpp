@@ -30,7 +30,7 @@ uint8_t KeyTable::getBTCode(uint8_t ps2ScanCode, bool isExtendedKey, uint8_t key
   if (isExtendedKey) {
     return pgm_read_byte(g_extendedKeyTable + ps2ScanCode);
   } else {
-    return pgm_read_byte(*(tbl + ps2ScanCode));
+    return pgm_read_byte(tbl + ps2ScanCode);
   }
 }
 
