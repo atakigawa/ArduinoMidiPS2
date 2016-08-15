@@ -300,7 +300,7 @@ void MagicMusicKeyboard::midiAllNotesOff()
 
 void MagicMusicKeyboard::changeOctave(uint8_t diff)
 {
-  uint8_t newVal = _transposeOffset + _noteOffset + diff;
+  uint8_t newVal = _noteOffset + diff;
   if (newVal < NOTE_OFFSET_MIN || newVal > NOTE_OFFSET_MAX) {
     return;
   }
