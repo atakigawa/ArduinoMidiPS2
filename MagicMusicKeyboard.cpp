@@ -43,13 +43,19 @@
 // 3 75%
 #define DUTY_RATIO_DEFAULT 2
 
+// key arrangement
+#define KEY_ARRANGE_0 0
+#define KEY_ARRANGE_1 1
+
 MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t midiChannel, uint8_t noteOffset)
   :PS2Device(clockPin, dataPin)
 {
   _isInitialized = false;
+
   _midiChannel = midiChannel;
   _noteOffset = noteOffset;
   _dutyRatio = DUTY_RATIO_DEFAULT;
+  _keyArrangeType = KEY_ARRANGE_0;
 }
 
 MagicMusicKeyboard::~MagicMusicKeyboard()
@@ -130,7 +136,7 @@ bool MagicMusicKeyboard::tryRead()
     else if (keyCode == 0xF0) //a standard key released
     {
       read(&keyCode, false);
-      btCode = KeyTable::getBTCode(keyCode, false);
+      btCode = KeyTable::getBTCode(keyCode, false, _keyArrangeType);
       pressed = false;
     }
     else if (keyCode == 0xE0) //an extended key
@@ -154,7 +160,7 @@ bool MagicMusicKeyboard::tryRead()
           read(NULL, false);
         }
 
-        btCode = KeyTable::getBTCode(keyCode, true);
+        btCode = KeyTable::getBTCode(keyCode, true, _keyArrangeType);
         pressed = false;
       }
 
@@ -170,7 +176,7 @@ bool MagicMusicKeyboard::tryRead()
 
       else //an extended key pressed
       {
-        btCode = KeyTable::getBTCode(keyCode, true);
+        btCode = KeyTable::getBTCode(keyCode, true, _keyArrangeType);
         pressed = true;
       }
     }
@@ -192,7 +198,7 @@ bool MagicMusicKeyboard::tryRead()
     }
     else
     {
-      btCode = KeyTable::getBTCode(keyCode, false);
+      btCode = KeyTable::getBTCode(keyCode, false, _keyArrangeType);
       pressed = true;
     }
     return processKey(btCode, pressed);
@@ -240,6 +246,16 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
         changeDutyRatio();
         stateUpdated = true;
       }
+    } else if (btCode == BTKC_KEYPAD_0) {
+      if (isPressed) {
+        changeKeyArrangement(KEY_ARRANGE_0);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_KEYPAD_1) {
+      if (isPressed) {
+        changeKeyArrangement(KEY_ARRANGE_1);
+        stateUpdated = true;
+      }
     }
   }
 
@@ -281,4 +297,9 @@ void MagicMusicKeyboard::changeDutyRatio()
   _dutyRatio = (_dutyRatio + 1) % 4;
   Serial.write(0xC0 | _midiChannel);
   Serial.write(_dutyRatio);
+}
+
+void MagicMusicKeyboard::changeKeyArrangement(uint8_t keyArrangeType)
+{
+  _keyArrangeType = keyArrangeType;
 }

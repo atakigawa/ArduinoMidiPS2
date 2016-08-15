@@ -31,7 +31,7 @@ extern const PROGMEM uint8_t g_extendedKeyTable[];
 class KeyTable
 {
 public:
-  static uint8_t getBTCode(uint8_t ps2ScanCode, bool isExtendedKey);
+  static uint8_t getBTCode(uint8_t ps2ScanCode, bool isExtendedKey, uint8_t keyArrangeType);
 };
 
 #endif  //KEYTABLE_H
