@@ -208,6 +208,7 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
       if (isPressed) {
         _isInitialized = false;
         initReset();
+        midiAllNotesOff();
         _isInitialized = true;
         stateUpdated = true;
       }
