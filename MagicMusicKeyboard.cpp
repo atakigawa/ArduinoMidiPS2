@@ -253,7 +253,7 @@ void MagicMusicKeyboard::midiAllNotesOff()
   Serial.write(0);
 }
 
-void octaveChange(uint8_t diff)
+void MagicMusicKeyboard::octaveChange(uint8_t diff)
 {
   uint8_t newVal = _noteOffset + diff;
   if (newVal < NOTE_OFFSET_MIN || newVal > NOTE_OFFSET_MAX) {
