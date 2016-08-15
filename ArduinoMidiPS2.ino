@@ -46,11 +46,10 @@
 // 3   channel 21-96
 // 4-5 channel 0-127
 
-// 35 is B0, so key '1' will output C1
-#define KBD1_OFFSET 35
-#define KBD2_OFFSET 35
-#define KBD3_OFFSET 47
-#define KBD4_OFFSET 35
+#define KBD1_OFFSET 33
+#define KBD2_OFFSET 33
+#define KBD3_OFFSET 45
+#define KBD4_OFFSET 33
 
 MagicMusicKeyboard magicMusicKeyboard1(KBD1_CLOCK, KBD1_DATA, KBD1_CHAN, KBD1_OFFSET);
 MagicMusicKeyboard magicMusicKeyboard2(KBD2_CLOCK, KBD2_DATA, KBD2_CHAN, KBD2_OFFSET);
