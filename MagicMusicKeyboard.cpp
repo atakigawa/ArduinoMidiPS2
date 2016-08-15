@@ -37,7 +37,7 @@
 #define NOTE_OFFSET_MAX 105
 
 // tranpose offsets range
-#define TRANSPOSE_OFFSET_MIN -12
+#define TRANSPOSE_OFFSET_MIN 0
 #define TRANSPOSE_OFFSET_MAX 12
 
 // duty ratios
