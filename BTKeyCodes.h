@@ -53,6 +53,11 @@
 #define BTCC_STOP_EJECT 0x4000
 #define BTCC_BROWSER 0x8000
 
+// 1 <= x < 60 music notes
+// 61 <= x     control notes
+#define MUSIC_NOTE_MIN 1
+#define MUSIC_NOTE_MAX 59
+
 //keycodes (MODIFIED FOR MAGIC MUSIC KEYBOARD)
 #define BTKC_NONE 0
 #define BTKC_1 1
@@ -92,7 +97,7 @@
 #define BTKC_0 35
 #define BTKC_P 36
 #define BTKC_RETURN 58
-#define BTKC_ESCAPE 0
+#define BTKC_ESCAPE 70
 #define BTKC_BACKSPACE 60
 #define BTKC_TAB 0
 #define BTKC_SPACE 59
@@ -130,8 +135,8 @@
 #define BTKC_DELETE 0
 #define BTKC_END 0
 #define BTKC_PAGE_DOWN 0
-#define BTKC_ARROW_RIGHT 0
-#define BTKC_ARROW_LEFT 0
+#define BTKC_ARROW_RIGHT 72
+#define BTKC_ARROW_LEFT 71
 #define BTKC_ARROW_DOWN 0
 #define BTKC_ARROW_UP 0
 #define BTKC_NUM_LOCK 0

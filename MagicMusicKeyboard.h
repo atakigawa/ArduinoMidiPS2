@@ -45,6 +45,7 @@ private:
   void midiNoteOn(uint8_t note);
   void midiNoteOff(uint8_t note);
   void midiAllNotesOff();
+  void octaveChange(uint8_t diff);
 };
 
 #endif //PS2KEYBOARD_H

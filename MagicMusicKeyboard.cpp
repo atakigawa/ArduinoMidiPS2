@@ -27,10 +27,14 @@
 //PS2 keycodes:
 //http://www.computer-engineering.org/ps2keyboard/scancodes3.html
 
-//MIDI defines
+// MIDI defines
 #define NOTE_ON_CMD 0x90
 #define NOTE_OFF_CMD 0x80
 #define NOTE_VELOCITY 70
+
+// note offsets
+#define NOTE_OFFSET_MIN 21
+#define NOTE_OFFSET_MAX 105
 
 MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t midiChannel, uint8_t noteOffset)
   :PS2Device(clockPin, dataPin)
@@ -192,19 +196,37 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
 {
   bool stateUpdated = false;
 
-  if (btCode == BTKC_BACKSPACE) {
-    // reset
-    if (isPressed) {
-      midiAllNotesOff();
-      stateUpdated = true;
-    }
-  } else if (1 <= btCode && btCode < BTKC_BACKSPACE) {
+  if (MUSIC_NOTE_MIN <= btCode && btCode <= MUSIC_NOTE_MAX) {
     if (isPressed) {
       midiNoteOn(btCode + _noteOffset);
     } else {
       midiNoteOff(btCode + _noteOffset);
     }
     stateUpdated = true;
+  } else {
+    if (btCode == BTKC_ESCAPE) {
+      if (isPressed) {
+        _isInitialized = false;
+        initReset();
+        _isInitialized = true;
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_BACKSPACE) {
+      if (isPressed) {
+        midiAllNotesOff();
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_ARROW_LEFT) {
+      if (isPressed) {
+        octaveChange(-12);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_ARROW_RIGHT) {
+      if (isPressed) {
+        octaveChange(12);
+        stateUpdated = true;
+      }
+    }
   }
 
   return stateUpdated;
@@ -226,10 +248,16 @@ void MagicMusicKeyboard::midiNoteOff(uint8_t note)
 
 void MagicMusicKeyboard::midiAllNotesOff()
 {
-  //for (uint8_t i = 0; i < 0x80; ++i) {
-  //  midiNoteOff(i);
-  //}
   Serial.write(0xB0 | _midiChannel);
   Serial.write(120);
   Serial.write(0);
+}
+
+void octaveChange(uint8_t diff)
+{
+  uint8_t newVal = _noteOffset + diff;
+  if (newVal < NOTE_OFFSET_MIN || newVal > NOTE_OFFSET_MAX) {
+    return;
+  }
+  _noteOffset = newVal;
 }

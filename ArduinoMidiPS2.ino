@@ -35,17 +35,22 @@
 #define KBD4_CLOCK 10
 #define KBD4_DATA 11
 
-//First note offsets
+// midi channel offsets
 #define KBD1_CHAN 0
 #define KBD2_CHAN 1
 #define KBD3_CHAN 2
 #define KBD4_CHAN 3
 
-//First note offsets
-#define KBD1_OFFSET 21
-#define KBD2_OFFSET 33
-#define KBD3_OFFSET 45
-#define KBD4_OFFSET 57
+// first note offsets
+// 1-2 channel 33-108
+// 3   channel 21-96
+// 4-5 channel 0-127
+
+// 35 is B0, so key '1' will output C1
+#define KBD1_OFFSET 35
+#define KBD2_OFFSET 35
+#define KBD3_OFFSET 47
+#define KBD4_OFFSET 35
 
 MagicMusicKeyboard magicMusicKeyboard1(KBD1_CLOCK, KBD1_DATA, KBD1_CHAN, KBD1_OFFSET);
 MagicMusicKeyboard magicMusicKeyboard2(KBD2_CLOCK, KBD2_DATA, KBD2_CHAN, KBD2_OFFSET);
@@ -54,17 +59,17 @@ MagicMusicKeyboard magicMusicKeyboard4(KBD4_CLOCK, KBD4_DATA, KBD4_CHAN, KBD4_OF
 
 void setup()
 {
-	Serial.begin(SERIAL_RATE);
-	magicMusicKeyboard1.init();
-	magicMusicKeyboard2.init();
-	magicMusicKeyboard3.init();
-	magicMusicKeyboard4.init();
+  Serial.begin(SERIAL_RATE);
+  magicMusicKeyboard1.init();
+  magicMusicKeyboard2.init();
+  magicMusicKeyboard3.init();
+  magicMusicKeyboard4.init();
 }
 
 void loop()
 {
-	magicMusicKeyboard1.update();
-	magicMusicKeyboard2.update();
-	magicMusicKeyboard3.update();
-	magicMusicKeyboard4.update();
+  magicMusicKeyboard1.update();
+  magicMusicKeyboard2.update();
+  magicMusicKeyboard3.update();
+  magicMusicKeyboard4.update();
 }
