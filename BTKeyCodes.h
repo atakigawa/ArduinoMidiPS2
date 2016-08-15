@@ -116,7 +116,8 @@
 #define BTKC0_COMMA 13
 #define BTKC0_PERIOD 15
 #define BTKC0_SLASH 17
-#define BTKC0_BACKSLASH 18
+#define BTKC0_BACKSLASH 0
+#define BTKC0_JP_UNDERSCORE 18
 
 #define BTKC0_A 0
 #define BTKC0_S 2
@@ -245,6 +246,7 @@
 #define BTKC1_F12 57
 #define BTKC1_RETURN 58
 #define BTKC1_SPACE 59
+#define BTKC1_BACKSLASH 0
 
 //highest bit masked with 1 is a virtual keycode
 //ie, 0x80 = 1000000b
