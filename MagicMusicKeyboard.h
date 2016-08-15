@@ -29,20 +29,20 @@
 class MagicMusicKeyboard : public PS2Device
 {
 public:
-	MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t noteOffset);
-	~MagicMusicKeyboard();
-	bool init();
-	bool update();
+  MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t noteOffset);
+  ~MagicMusicKeyboard();
+  bool init();
+  bool update();
 
 private:
-	bool _isInitialized;
-	uint8_t _noteOffset;
-	bool initReset();
-	bool tryRead();
-	bool processKey(uint8_t btCode, bool isPressed);
-	void midiNoteOn(uint8_t note);
-	void midiNoteOff(uint8_t note);
-	void midiAllNotesOff();
+  bool _isInitialized;
+  uint8_t _noteOffset;
+  bool initReset();
+  bool tryRead();
+  bool processKey(uint8_t btCode, bool isPressed);
+  void midiNoteOn(uint8_t note);
+  void midiNoteOff(uint8_t note);
+  void midiAllNotesOff();
 };
 
 #endif //PS2KEYBOARD_H

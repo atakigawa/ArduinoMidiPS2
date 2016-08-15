@@ -32,22 +32,22 @@
 class PS2Device
 {
 public:
-	PS2Device(uint8_t clockPin, uint8_t dataPin);
-	virtual ~PS2Device();
+  PS2Device(uint8_t clockPin, uint8_t dataPin);
+  virtual ~PS2Device();
 
 protected:
-	bool write(uint8_t data, bool enableTimeout);
-	bool read(uint8_t * data, bool enableTimeout);
-	void golo(uint8_t pin);
-	void gohi(uint8_t pin);
-	uint8_t _clockPin;
-	uint8_t _dataPin;
+  bool write(uint8_t data, bool enableTimeout);
+  bool read(uint8_t * data, bool enableTimeout);
+  void golo(uint8_t pin);
+  void gohi(uint8_t pin);
+  uint8_t _clockPin;
+  uint8_t _dataPin;
 
 private:
-	void startTimeoutCtr();
-	bool hasTimedOut(uint64_t usecsToTimeOut);
-	uint64_t _timeoutStartCtr;
-	bool _timedOut;
+  void startTimeoutCtr();
+  bool hasTimedOut(uint64_t usecsToTimeOut);
+  uint64_t _timeoutStartCtr;
+  bool _timedOut;
 };
 
 

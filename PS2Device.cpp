@@ -24,10 +24,10 @@
 
 PS2Device::PS2Device(uint8_t clockPin, uint8_t dataPin)
 {
-	_clockPin = clockPin;
-	_dataPin = dataPin;
-	gohi(_clockPin);
-	gohi(_dataPin);
+  _clockPin = clockPin;
+  _dataPin = dataPin;
+  gohi(_clockPin);
+  gohi(_dataPin);
 }
 
 PS2Device::~PS2Device()
@@ -36,168 +36,168 @@ PS2Device::~PS2Device()
 
 bool PS2Device::write(uint8_t data, bool enableTimeout)
 {
-	bool parity = true;
+  bool parity = true;
 
-	gohi(_dataPin);
-	gohi(_clockPin);
-	delayMicroseconds(300);
-	golo(_clockPin);
-	delayMicroseconds(300);
-	golo(_dataPin);
-	delayMicroseconds(10);
-	gohi(_clockPin);
+  gohi(_dataPin);
+  gohi(_clockPin);
+  delayMicroseconds(300);
+  golo(_clockPin);
+  delayMicroseconds(300);
+  golo(_dataPin);
+  delayMicroseconds(10);
+  gohi(_clockPin);
 
-	//wait for clock lo
-	if (enableTimeout)
-	{
-		startTimeoutCtr();
-		while (digitalRead(_clockPin) == HIGH && !hasTimedOut(TIMEOUT_WRITE_WAIT))
-			; //busy wait
-		if (_timedOut)
-			return false;
-	}
-	else
-	{
-		while (digitalRead(_clockPin) == HIGH)
-			; //busy wait
-	}
+  //wait for clock lo
+  if (enableTimeout)
+  {
+    startTimeoutCtr();
+    while (digitalRead(_clockPin) == HIGH && !hasTimedOut(TIMEOUT_WRITE_WAIT))
+      ; //busy wait
+    if (_timedOut)
+      return false;
+  }
+  else
+  {
+    while (digitalRead(_clockPin) == HIGH)
+      ; //busy wait
+  }
 
-	//data bits
-	for (uint8_t i = 0; i < 8; i++)
-	{
-		if (data & (1 << i))
-		{
-			parity = !parity;
-			gohi(_dataPin);
-		}
-		else
-		{
-			golo(_dataPin);
-		}
+  //data bits
+  for (uint8_t i = 0; i < 8; i++)
+  {
+    if (data & (1 << i))
+    {
+      parity = !parity;
+      gohi(_dataPin);
+    }
+    else
+    {
+      golo(_dataPin);
+    }
 
-		//clock cycle
-		while (digitalRead(_clockPin) == LOW);
-		while (digitalRead(_clockPin) == HIGH);
-	}
+    //clock cycle
+    while (digitalRead(_clockPin) == LOW);
+    while (digitalRead(_clockPin) == HIGH);
+  }
 
-	//parity bit
-	if (parity)
-		gohi(_dataPin);
-	else
-		golo(_dataPin);
+  //parity bit
+  if (parity)
+    gohi(_dataPin);
+  else
+    golo(_dataPin);
 
-	//clock cycle
-	while (digitalRead(_clockPin) == LOW);
-	while (digitalRead(_clockPin) == HIGH);
+  //clock cycle
+  while (digitalRead(_clockPin) == LOW);
+  while (digitalRead(_clockPin) == HIGH);
 
-	//stop bit
-	delayMicroseconds(30);
-	gohi(_dataPin);
+  //stop bit
+  delayMicroseconds(30);
+  gohi(_dataPin);
 
-	//ack
-	while (digitalRead(_clockPin) == HIGH);
+  //ack
+  while (digitalRead(_clockPin) == HIGH);
 
-	//mode switch
-	while ((digitalRead(_clockPin) == LOW) || (digitalRead(_dataPin) == LOW));
+  //mode switch
+  while ((digitalRead(_clockPin) == LOW) || (digitalRead(_dataPin) == LOW));
 
-	//hold up incoming data
-	golo(_clockPin);
+  //hold up incoming data
+  golo(_clockPin);
 
-	return true;
+  return true;
 }
 
 bool PS2Device::read(uint8_t * data, bool enableTimeout)
 {
-	//clear data
-	*data = 0;
+  //clear data
+  *data = 0;
 
-	gohi(_dataPin);
+  gohi(_dataPin);
 
-	if(enableTimeout)
-	{
-		startTimeoutCtr();
-		gohi(_clockPin);
+  if(enableTimeout)
+  {
+    startTimeoutCtr();
+    gohi(_clockPin);
 
-		//test
-		//delayMicroseconds(50);
+    //test
+    //delayMicroseconds(50);
 
-		while (digitalRead(_clockPin) == HIGH  && !hasTimedOut(TIMEOUT_READ_WAIT))
-			; //busy wait
-		if (_timedOut)
-		{
-			//hold up incoming data
-			golo(_clockPin);
-			return false;
-		}
-	}
-	else
-	{
-		gohi(_clockPin);
-		while (digitalRead(_clockPin) == HIGH)
-			; //busy wait
-	}
+    while (digitalRead(_clockPin) == HIGH  && !hasTimedOut(TIMEOUT_READ_WAIT))
+      ; //busy wait
+    if (_timedOut)
+    {
+      //hold up incoming data
+      golo(_clockPin);
+      return false;
+    }
+  }
+  else
+  {
+    gohi(_clockPin);
+    while (digitalRead(_clockPin) == HIGH)
+      ; //busy wait
+  }
 
-	//test
-	//delayMicroseconds(5);
+  //test
+  //delayMicroseconds(5);
 
-	//start bit
-	while (digitalRead(_clockPin) == LOW);
+  //start bit
+  while (digitalRead(_clockPin) == LOW);
 
-	//data bits
-	for (uint8_t i = 0; i < 8; i++)
-	{
-		//wait for clock lo
-		while (digitalRead(_clockPin) == HIGH);
+  //data bits
+  for (uint8_t i = 0; i < 8; i++)
+  {
+    //wait for clock lo
+    while (digitalRead(_clockPin) == HIGH);
 
-		if (digitalRead(_dataPin) == HIGH && data != NULL)
-		{
-			*data |= (1 << i);
-		}
+    if (digitalRead(_dataPin) == HIGH && data != NULL)
+    {
+      *data |= (1 << i);
+    }
 
-		//wait for clock hi
-		while (digitalRead(_clockPin) == LOW);
-	}
+    //wait for clock hi
+    while (digitalRead(_clockPin) == LOW);
+  }
 
-	//parity bit (ignore it)
-	while (digitalRead(_clockPin) == HIGH);
-	while (digitalRead(_clockPin) == LOW);
+  //parity bit (ignore it)
+  while (digitalRead(_clockPin) == HIGH);
+  while (digitalRead(_clockPin) == LOW);
 
-	//stop bit
-	while (digitalRead(_clockPin) == HIGH);
-	while (digitalRead(_clockPin) == LOW);
+  //stop bit
+  while (digitalRead(_clockPin) == HIGH);
+  while (digitalRead(_clockPin) == LOW);
 
-	//hold incoming data
-	golo(_clockPin);
+  //hold incoming data
+  golo(_clockPin);
 
-	return true;
+  return true;
 }
 
 void PS2Device::golo(uint8_t pin)
 {
-	pinMode(pin, OUTPUT);
-	digitalWrite(pin, LOW);
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
 }
 
 void PS2Device::gohi(uint8_t pin)
 {
-	pinMode(pin, INPUT);
-	digitalWrite(pin, HIGH);
+  pinMode(pin, INPUT);
+  digitalWrite(pin, HIGH);
 }
 
 void PS2Device::startTimeoutCtr()
 {
-	_timeoutStartCtr = micros();
-	_timedOut = false;
+  _timeoutStartCtr = micros();
+  _timedOut = false;
 }
 
 bool PS2Device::hasTimedOut(uint64_t usecsToTimeOut)
 {
-	uint64_t deltaTime = micros() - _timeoutStartCtr;
-	if (deltaTime > usecsToTimeOut)
-	{
-		_timedOut = true;
-		return true;
-	}
+  uint64_t deltaTime = micros() - _timeoutStartCtr;
+  if (deltaTime > usecsToTimeOut)
+  {
+    _timedOut = true;
+    return true;
+  }
 
-	return false;
+  return false;
 }
