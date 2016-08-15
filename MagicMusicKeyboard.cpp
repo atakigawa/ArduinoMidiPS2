@@ -32,9 +32,16 @@
 #define NOTE_OFF_CMD 0x80
 #define NOTE_VELOCITY 70
 
-// note offsets
+// note offsets range
 #define NOTE_OFFSET_MIN 21
 #define NOTE_OFFSET_MAX 105
+
+// duty ratios
+// 0 12.5%
+// 1 25%
+// 2 50% (default)
+// 3 75%
+#define DUTY_RATIO_DEFAULT 2
 
 MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t midiChannel, uint8_t noteOffset)
   :PS2Device(clockPin, dataPin)
@@ -42,6 +49,7 @@ MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_
   _isInitialized = false;
   _midiChannel = midiChannel;
   _noteOffset = noteOffset;
+  _dutyRatio = DUTY_RATIO_DEFAULT;
 }
 
 MagicMusicKeyboard::~MagicMusicKeyboard()
@@ -219,12 +227,17 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
       }
     } else if (btCode == BTKC_ARROW_LEFT) {
       if (isPressed) {
-        octaveChange(-12);
+        changeOctave(-12);
         stateUpdated = true;
       }
     } else if (btCode == BTKC_ARROW_RIGHT) {
       if (isPressed) {
-        octaveChange(12);
+        changeOctave(12);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_KEYPAD_ADD) {
+      if (isPressed) {
+        changeDutyRatio();
         stateUpdated = true;
       }
     }
@@ -254,11 +267,18 @@ void MagicMusicKeyboard::midiAllNotesOff()
   Serial.write(0);
 }
 
-void MagicMusicKeyboard::octaveChange(uint8_t diff)
+void MagicMusicKeyboard::changeOctave(uint8_t diff)
 {
   uint8_t newVal = _noteOffset + diff;
   if (newVal < NOTE_OFFSET_MIN || newVal > NOTE_OFFSET_MAX) {
     return;
   }
   _noteOffset = newVal;
+}
+
+void MagicMusicKeyboard::changeDutyRatio()
+{
+  _dutyRatio = (_dutyRatio + 1) % 4;
+  Serial.write(0xC0 | _midiChannel);
+  Serial.write(_dutyRatio);
 }

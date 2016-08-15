@@ -38,14 +38,18 @@ private:
   bool _isInitialized;
   uint8_t _midiChannel;
   uint8_t _noteOffset;
+  uint8_t _dutyRatio;
 
   bool initReset();
   bool tryRead();
   bool processKey(uint8_t btCode, bool isPressed);
+
   void midiNoteOn(uint8_t note);
   void midiNoteOff(uint8_t note);
+
   void midiAllNotesOff();
-  void octaveChange(uint8_t diff);
+  void changeOctave(uint8_t diff);
+  void changeDutyRatio();
 };
 
 #endif //PS2KEYBOARD_H
