@@ -64,9 +64,11 @@
 #define BTKC_ESCAPE 70
 #define BTKC_ARROW_LEFT 71
 #define BTKC_ARROW_RIGHT 72
-#define BTKC_KEYPAD_ADD 73
-#define BTKC_KEYPAD_0 74
-#define BTKC_KEYPAD_1 75
+#define BTKC_ARROW_DOWN 73
+#define BTKC_ARROW_UP 74
+#define BTKC_KEYPAD_ADD 75
+#define BTKC_KEYPAD_0 76
+#define BTKC_KEYPAD_1 77
 #define BTKC_TAB 0
 #define BTKC_EUROPE_1 0
 #define BTKC_GRAVE 0
@@ -80,8 +82,6 @@
 #define BTKC_DELETE 0
 #define BTKC_END 0
 #define BTKC_PAGE_DOWN 0
-#define BTKC_ARROW_DOWN 0
-#define BTKC_ARROW_UP 0
 #define BTKC_NUM_LOCK 0
 #define BTKC_KEYPAD_DIV 0
 #define BTKC_KEYPAD_MUL 0
