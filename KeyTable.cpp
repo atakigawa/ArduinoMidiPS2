@@ -23,6 +23,7 @@
 #include "KeyTable.h"
 #include "BTKeyCodes.h"
 
+// convert from raw keycode to midi note number (defined in BTKeyCodes.h).
 uint8_t KeyTable::getBTCode(uint8_t ps2ScanCode, bool isExtendedKey)
 {
   if (isExtendedKey)

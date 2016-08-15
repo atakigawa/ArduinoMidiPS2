@@ -32,10 +32,11 @@
 #define NOTE_OFF_CMD 0x80
 #define NOTE_VELOCITY 70
 
-MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t noteOffset)
+MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t midiChannel, uint8_t noteOffset)
   :PS2Device(clockPin, dataPin)
 {
   _isInitialized = false;
+  _midiChannel = midiChannel;
   _noteOffset = noteOffset;
 }
 
@@ -88,11 +89,13 @@ bool MagicMusicKeyboard::initReset()
 
 bool MagicMusicKeyboard::update()
 {
-  if (!_isInitialized)
+  if (!_isInitialized) {
     return false;
+  }
 
-  if (tryRead())
+  if (tryRead()) {
     return true;
+  }
 
   return false;
 }
@@ -189,58 +192,44 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
 {
   bool stateUpdated = false;
 
-  if (!(1 <= btCode && btCode <= BTKC_BACKSPACE))
-  {
-    //do nothing
-    return false;
-  }
-
-  else if (btCode == BTKC_BACKSPACE)
-  {
-    //reset key (backspace)
-    if (isPressed)
-    {
+  if (btCode == BTKC_BACKSPACE) {
+    // reset
+    if (isPressed) {
       midiAllNotesOff();
-      return true;
+      stateUpdated = true;
     }
-    else
-    {
-      return false;
-    }
-  }
-
-  else
-  {
-    if (isPressed)
-    {
+  } else if (1 <= btCode && btCode < BTKC_BACKSPACE) {
+    if (isPressed) {
       midiNoteOn(btCode + _noteOffset);
-    }
-    else
-    {
+    } else {
       midiNoteOff(btCode + _noteOffset);
     }
-    return true;
+    stateUpdated = true;
   }
+
+  return stateUpdated;
 }
 
 void MagicMusicKeyboard::midiNoteOn(uint8_t note)
 {
-  Serial.write(NOTE_ON_CMD);
+  Serial.write(NOTE_ON_CMD | _midiChannel);
   Serial.write(note);
   Serial.write(NOTE_VELOCITY);
 }
 
 void MagicMusicKeyboard::midiNoteOff(uint8_t note)
 {
-  Serial.write(NOTE_OFF_CMD);
+  Serial.write(NOTE_OFF_CMD | _midiChannel);
   Serial.write(note);
   Serial.write(NOTE_VELOCITY);
 }
 
 void MagicMusicKeyboard::midiAllNotesOff()
 {
-  for (uint8_t i = 0; i < 0x80; ++i)
-  {
-    midiNoteOff(i);
-  }
+  //for (uint8_t i = 0; i < 0x80; ++i) {
+  //  midiNoteOff(i);
+  //}
+  Serial.write(0xB0 | _midiChannel);
+  Serial.write(120);
+  Serial.write(0);
 }

@@ -29,14 +29,16 @@
 class MagicMusicKeyboard : public PS2Device
 {
 public:
-  MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t noteOffset);
+  MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t midiChannel, uint8_t noteOffset);
   ~MagicMusicKeyboard();
   bool init();
   bool update();
 
 private:
   bool _isInitialized;
+  uint8_t _midiChannel;
   uint8_t _noteOffset;
+
   bool initReset();
   bool tryRead();
   bool processKey(uint8_t btCode, bool isPressed);

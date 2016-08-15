@@ -36,15 +36,21 @@
 #define KBD4_DATA 11
 
 //First note offsets
+#define KBD1_CHAN 0
+#define KBD2_CHAN 1
+#define KBD3_CHAN 2
+#define KBD4_CHAN 3
+
+//First note offsets
 #define KBD1_OFFSET 21
 #define KBD2_OFFSET 33
 #define KBD3_OFFSET 45
 #define KBD4_OFFSET 57
 
-MagicMusicKeyboard magicMusicKeyboard1(KBD1_CLOCK, KBD1_DATA, KBD1_OFFSET);
-MagicMusicKeyboard magicMusicKeyboard2(KBD2_CLOCK, KBD2_DATA, KBD2_OFFSET);
-MagicMusicKeyboard magicMusicKeyboard3(KBD3_CLOCK, KBD3_DATA, KBD3_OFFSET);
-MagicMusicKeyboard magicMusicKeyboard4(KBD4_CLOCK, KBD4_DATA, KBD4_OFFSET);
+MagicMusicKeyboard magicMusicKeyboard1(KBD1_CLOCK, KBD1_DATA, KBD1_CHAN, KBD1_OFFSET);
+MagicMusicKeyboard magicMusicKeyboard2(KBD2_CLOCK, KBD2_DATA, KBD2_CHAN, KBD2_OFFSET);
+MagicMusicKeyboard magicMusicKeyboard3(KBD3_CLOCK, KBD3_DATA, KBD3_CHAN, KBD3_OFFSET);
+MagicMusicKeyboard magicMusicKeyboard4(KBD4_CLOCK, KBD4_DATA, KBD4_CHAN, KBD4_OFFSET);
 
 void setup()
 {
