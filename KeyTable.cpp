@@ -124,7 +124,7 @@ const PROGMEM uint8_t g_standardKeyTable0[] =
   BTKC0_MINUS,     //0x4e (78)
   BTKC0_F10,       //0x4F (79)
   BTKC_NONE,      //0x50 (80)
-  BTKC_NONE,      //0x51 (81)
+  BTKC0_JP_UNDERSCORE,//0x51 (81)
   BTKC0_APOSTROPHE,//0x52 (82)
   BTKC_NONE,      //0x53 (83)
   BTKC0_BRACKET_LEFT,//0x54 (84)

@@ -36,6 +36,10 @@
 #define NOTE_OFFSET_MIN 21
 #define NOTE_OFFSET_MAX 105
 
+// tranpose offsets range
+#define TRANSPOSE_OFFSET_MIN -12
+#define TRANSPOSE_OFFSET_MAX 12
+
 // duty ratios
 // 0 12.5%
 // 1 25%
@@ -54,6 +58,7 @@ MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_
 
   _midiChannel = midiChannel;
   _noteOffset = noteOffset;
+  _transposeOffset = 0;
   _dutyRatio = DUTY_RATIO_DEFAULT;
   _keyArrangeType = KEY_ARRANGE_0;
 }
@@ -212,9 +217,9 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
 
   if (MUSIC_NOTE_MIN <= btCode && btCode <= MUSIC_NOTE_MAX) {
     if (isPressed) {
-      midiNoteOn(btCode + _noteOffset);
+      midiNoteOn(btCode + _transposeOffset + _noteOffset);
     } else {
-      midiNoteOff(btCode + _noteOffset);
+      midiNoteOff(btCode + _transposeOffset + _noteOffset);
     }
     stateUpdated = true;
   } else {
@@ -239,6 +244,16 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
     } else if (btCode == BTKC_ARROW_RIGHT) {
       if (isPressed) {
         changeOctave(12);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_ARROW_DOWN) {
+      if (isPressed) {
+        transpose(-1);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_ARROW_UP) {
+      if (isPressed) {
+        transpose(1);
         stateUpdated = true;
       }
     } else if (btCode == BTKC_KEYPAD_ADD) {
@@ -285,7 +300,7 @@ void MagicMusicKeyboard::midiAllNotesOff()
 
 void MagicMusicKeyboard::changeOctave(uint8_t diff)
 {
-  uint8_t newVal = _noteOffset + diff;
+  uint8_t newVal = _transposeOffset + _noteOffset + diff;
   if (newVal < NOTE_OFFSET_MIN || newVal > NOTE_OFFSET_MAX) {
     return;
   }
@@ -302,4 +317,13 @@ void MagicMusicKeyboard::changeDutyRatio()
 void MagicMusicKeyboard::changeKeyArrangement(uint8_t keyArrangeType)
 {
   _keyArrangeType = keyArrangeType;
+}
+
+void MagicMusicKeyboard::transpose(uint8_t diff)
+{
+  uint8_t newVal = _transposeOffset + diff;
+  if (newVal < TRANSPOSE_OFFSET_MIN || newVal > TRANSPOSE_OFFSET_MAX) {
+    return;
+  }
+  _transposeOffset = newVal;
 }
