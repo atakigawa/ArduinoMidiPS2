@@ -83,8 +83,7 @@ bool MagicMusicKeyboard::initReset()
 {
   bool resetStatus = write(0xff, true);  // Reset signal - 0xFF
 
-  if (!resetStatus)
-  {
+  if (!resetStatus) {
     return false;
   }
 
@@ -94,8 +93,7 @@ bool MagicMusicKeyboard::initReset()
   uint8_t result = 0x00;
   read(&result, false);
 
-  if (result != 0xAA)
-  {
+  if (result != 0xAA) {
     return false;
   }
 
@@ -129,35 +127,32 @@ bool MagicMusicKeyboard::tryRead()
   uint8_t btCode = BTKC_NONE;
   bool pressed = false;
 
-  if (read(&keyCode, true))
-  {
+  if (read(&keyCode, true)) {
     //Read the rest of the incoming bytes with blocking
 
-    if (keyCode == 0x00)
-    {
+    if (keyCode == 0x00) {
       //do nothing
       return false;
-    }
-    else if (keyCode == 0xF0) //a standard key released
-    {
+
+    } else if (keyCode == 0xF0) {
+      //a standard key released
       read(&keyCode, false);
       btCode = KeyTable::getBTCode(keyCode, false, _keyArrangeType);
       pressed = false;
-    }
-    else if (keyCode == 0xE0) //an extended key
-    {
+
+    } else if (keyCode == 0xE0) {
+      //an extended key
       read(&keyCode, false);
 
-      if (keyCode == 0xF0) //an extended key released
-      {
+      if (keyCode == 0xF0) {
+        //an extended key released
         read(&keyCode, false);
 
         //The one exception to this case is Print Screen
         // Make: E0,12,E0,7C
         // Break: E0,F0,7C,E0,F0,12
         // So hardcode the case where 7C is read
-        if (keyCode == 0x7C)
-        {
+        if (keyCode == 0x7C) {
           keyCode = 0x12;
           //skip over remaining 3 bytes
           read(NULL, false);
@@ -167,26 +162,23 @@ bool MagicMusicKeyboard::tryRead()
 
         btCode = KeyTable::getBTCode(keyCode, true, _keyArrangeType);
         pressed = false;
-      }
 
-      //The one exception to this case is Print Screen
-      // Make: E0,12,E0,7C
-      // Break: E0,F0,7C,E0,F0,12
-      else if (keyCode == 0x12)
-      {
+      } else if (keyCode == 0x12) {
+        //The one exception to this case is Print Screen
+        // Make: E0,12,E0,7C
+        // Break: E0,F0,7C,E0,F0,12
+
         //skip over remaining 2 bytes
         read(NULL, false);
         read(NULL, false);
-      }
 
-      else //an extended key pressed
-      {
+      } else {
+        //an extended key pressed
         btCode = KeyTable::getBTCode(keyCode, true, _keyArrangeType);
         pressed = true;
       }
-    }
-    else if (keyCode == 0xE1)
-    {
+
+    } else if (keyCode == 0xE1) {
       //There's only 1 E1 extension in the table of scancodes (PAUSE key)
       // (there's no release code for this key either)
       btCode = BTKC_PAUSE;
@@ -200,9 +192,8 @@ bool MagicMusicKeyboard::tryRead()
       read(NULL, false);
       read(NULL, false);
       read(NULL, false);
-    }
-    else
-    {
+
+    } else {
       btCode = KeyTable::getBTCode(keyCode, false, _keyArrangeType);
       pressed = true;
     }
