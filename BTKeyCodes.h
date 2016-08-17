@@ -116,7 +116,7 @@
 #define BTKC0_COMMA 13
 #define BTKC0_PERIOD 15
 #define BTKC0_SLASH 17
-#define BTKC0_BACKSLASH 0
+//#define BTKC0_BACKSLASH 0
 #define BTKC0_JP_UNDERSCORE 18
 
 #define BTKC0_A 0
@@ -130,6 +130,7 @@
 #define BTKC0_L 14
 #define BTKC0_SEMICOLON 16
 #define BTKC0_APOSTROPHE 0
+#define BTKC0_JP_BRACKET_RIGHT 19
 
 #define BTKC0_Q 13
 #define BTKC0_W 15
@@ -156,6 +157,7 @@
 #define BTKC0_0 28
 #define BTKC0_MINUS 0
 #define BTKC0_EQUAL 31
+#define BTKC0_JP_YEN 33
 
 #define BTKC0_F1 25
 #define BTKC0_F2 26
@@ -187,8 +189,8 @@
 #define BTKC1_COMMA 13
 #define BTKC1_PERIOD 14
 #define BTKC1_SLASH 15
-#define BTKC1_BACKSLASH 16
-#define BTKC1_JP_UNDERSCORE 17
+//#define BTKC1_BACKSLASH 0
+#define BTKC1_JP_UNDERSCORE 16
 
 #define BTKC1_CAPS_LOCK 10
 #define BTKC1_A 11
@@ -202,6 +204,7 @@
 #define BTKC1_L 19
 #define BTKC1_SEMICOLON 20
 #define BTKC1_APOSTROPHE 21
+#define BTKC1_JP_BRACKET_RIGHT 22
 
 #define BTKC1_TAB 15
 #define BTKC1_Q 16
@@ -230,6 +233,7 @@
 #define BTKC1_0 30
 #define BTKC1_MINUS 31
 #define BTKC1_EQUAL 32
+#define BTKC1_JP_YEN 33
 
 #define BTKC1_F1 26
 #define BTKC1_F2 27
