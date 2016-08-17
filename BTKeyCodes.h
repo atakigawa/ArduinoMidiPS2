@@ -175,78 +175,73 @@
 
 
 // for keyboard arrangemnt type 1
-#define BTKC1_1 1
-#define BTKC1_Q 2
-#define BTKC1_A 3
-#define BTKC1_Z 4
 
-#define BTKC1_2 5
-#define BTKC1_W 6
-#define BTKC1_S 7
-#define BTKC1_X 8
+#define BTKC1_Z 5
+#define BTKC1_X 6
+#define BTKC1_C 7
+#define BTKC1_V 8
+#define BTKC1_B 9
+#define BTKC1_N 10
+#define BTKC1_M 11
+#define BTKC1_COMMA 12
+#define BTKC1_PERIOD 13
+#define BTKC1_SLASH 14
+#define BTKC1_BACKSLASH 15
+#define BTKC1_JP_UNDERSCORE 16
 
-#define BTKC1_3 9
-#define BTKC1_E 10
-#define BTKC1_D 11
-#define BTKC1_C 12
+#define BTKC1_A 10
+#define BTKC1_S 11
+#define BTKC1_D 12
+#define BTKC1_F 13
+#define BTKC1_G 14
+#define BTKC1_H 15
+#define BTKC1_J 16
+#define BTKC1_K 17
+#define BTKC1_L 18
+#define BTKC1_SEMICOLON 19
+#define BTKC1_APOSTROPHE 20
 
-#define BTKC1_4 13
-#define BTKC1_R 14
-#define BTKC1_F 15
-#define BTKC1_V 16
+#define BTKC1_Q 15
+#define BTKC1_W 16
+#define BTKC1_E 17
+#define BTKC1_R 18
+#define BTKC1_T 19
+#define BTKC1_Y 20
+#define BTKC1_U 21
+#define BTKC1_I 22
+#define BTKC1_O 23
+#define BTKC1_P 24
+#define BTKC1_BRACKET_LEFT 25
+#define BTKC1_BRACKET_RIGHT 26
 
-#define BTKC1_5 17
-#define BTKC1_T 18
-#define BTKC1_G 19
-#define BTKC1_B 20
+#define BTKC1_1 20
+#define BTKC1_2 21
+#define BTKC1_3 22
+#define BTKC1_4 23
+#define BTKC1_5 24
+#define BTKC1_6 25
+#define BTKC1_7 26
+#define BTKC1_8 27
+#define BTKC1_9 28
+#define BTKC1_0 29
+#define BTKC1_MINUS 30
+#define BTKC1_EQUAL 31
 
-#define BTKC1_6 21
-#define BTKC1_Y 22
-#define BTKC1_H 23
-#define BTKC1_N 24
+#define BTKC1_F1 25
+#define BTKC1_F2 26
+#define BTKC1_F3 27
+#define BTKC1_F4 28
+#define BTKC1_F5 29
+#define BTKC1_F6 30
+#define BTKC1_F7 31
+#define BTKC1_F8 32
+#define BTKC1_F9 33
+#define BTKC1_F10 34
+#define BTKC1_F11 35
+#define BTKC1_F12 36
 
-#define BTKC1_7 25
-#define BTKC1_U 26
-#define BTKC1_J 27
-#define BTKC1_M 28
-
-#define BTKC1_8 29
-#define BTKC1_I 30
-#define BTKC1_K 31
-#define BTKC1_COMMA 32
-
-#define BTKC1_9 33
-#define BTKC1_O 34
-#define BTKC1_L 35
-#define BTKC1_PERIOD 36
-
-#define BTKC1_0 37
-#define BTKC1_P 38
-#define BTKC1_SEMICOLON 39
-#define BTKC1_SLASH 40
-
-#define BTKC1_MINUS 41
-#define BTKC1_BRACKET_LEFT 42
-#define BTKC1_APOSTROPHE 43
-
-#define BTKC1_EQUAL 44
-#define BTKC1_BRACKET_RIGHT 45
-
-#define BTKC1_F1 46
-#define BTKC1_F2 47
-#define BTKC1_F3 48
-#define BTKC1_F4 49
-#define BTKC1_F5 50
-#define BTKC1_F6 51
-#define BTKC1_F7 52
-#define BTKC1_F8 53
-#define BTKC1_F9 54
-#define BTKC1_F10 55
-#define BTKC1_F11 56
-#define BTKC1_F12 57
-#define BTKC1_RETURN 58
-#define BTKC1_SPACE 59
-#define BTKC1_BACKSLASH 0
+#define BTKC1_RETURN 0
+#define BTKC1_SPACE 0
 
 //highest bit masked with 1 is a virtual keycode
 //ie, 0x80 = 1000000b
