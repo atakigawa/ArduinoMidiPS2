@@ -69,6 +69,8 @@
 #define BTKC_KEYPAD_ADD 75
 #define BTKC_KEYPAD_0 76
 #define BTKC_KEYPAD_1 77
+#define BTKC_PAGE_UP 78
+#define BTKC_PAGE_DOWN 79
 #define BTKC_TAB 0
 #define BTKC_EUROPE_1 0
 #define BTKC_GRAVE 0
@@ -78,10 +80,8 @@
 #define BTKC_PAUSE 0
 #define BTKC_INSERT 0
 #define BTKC_HOME 0
-#define BTKC_PAGE_UP 0
 #define BTKC_DELETE 0
 #define BTKC_END 0
-#define BTKC_PAGE_DOWN 0
 #define BTKC_NUM_LOCK 0
 #define BTKC_KEYPAD_DIV 0
 #define BTKC_KEYPAD_MUL 0
@@ -235,18 +235,18 @@
 #define BTKC1_EQUAL 32
 #define BTKC1_JP_YEN 33
 
-#define BTKC1_F1 26
-#define BTKC1_F2 27
-#define BTKC1_F3 28
-#define BTKC1_F4 29
-#define BTKC1_F5 30
-#define BTKC1_F6 31
-#define BTKC1_F7 32
-#define BTKC1_F8 33
-#define BTKC1_F9 34
-#define BTKC1_F10 35
-#define BTKC1_F11 36
-#define BTKC1_F12 37
+#define BTKC1_F1 27
+#define BTKC1_F2 28
+#define BTKC1_F3 29
+#define BTKC1_F4 30
+#define BTKC1_F5 31
+#define BTKC1_F6 32
+#define BTKC1_F7 33
+#define BTKC1_F8 34
+#define BTKC1_F9 35
+#define BTKC1_F10 36
+#define BTKC1_F11 37
+#define BTKC1_F12 38
 
 #define BTKC1_RETURN 0
 #define BTKC1_SPACE 0

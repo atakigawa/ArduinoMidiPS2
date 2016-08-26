@@ -41,6 +41,7 @@ private:
   uint8_t _transposeOffset;
   uint8_t _dutyRatio;
   uint8_t _keyArrangeType;
+  uint8_t _volume;
 
   bool initReset();
   bool tryRead();
@@ -50,10 +51,11 @@ private:
   void midiNoteOff(uint8_t note);
 
   void midiAllNotesOff();
-  void changeOctave(uint8_t diff);
+  void changeOctave(int8_t diff);
   void changeDutyRatio();
   void changeKeyArrangement(uint8_t diff);
-  void transpose(uint8_t diff);
+  void transpose(int8_t diff);
+  void changeVolume(int8_t diff);
 };
 
 #endif //PS2KEYBOARD_H

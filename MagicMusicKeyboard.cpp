@@ -51,6 +51,10 @@
 #define KEY_ARRANGE_0 0
 #define KEY_ARRANGE_1 1
 
+// volume max/min
+#define VOLUME_MIN 0
+#define VOLUME_MAX 127
+
 MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t midiChannel, uint8_t noteOffset)
   :PS2Device(clockPin, dataPin)
 {
@@ -61,6 +65,7 @@ MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_
   _transposeOffset = 0;
   _dutyRatio = DUTY_RATIO_DEFAULT;
   _keyArrangeType = KEY_ARRANGE_0;
+  _volume = 127;
 }
 
 MagicMusicKeyboard::~MagicMusicKeyboard()
@@ -262,6 +267,16 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
         changeKeyArrangement(KEY_ARRANGE_1);
         stateUpdated = true;
       }
+    } else if (btCode == BTKC_PAGE_UP) {
+      if (isPressed) {
+        changeVolume(8);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_PAGE_DOWN) {
+      if (isPressed) {
+        changeVolume(-8);
+        stateUpdated = true;
+      }
     }
   }
 
@@ -289,7 +304,7 @@ void MagicMusicKeyboard::midiAllNotesOff()
   Serial.write(0);
 }
 
-void MagicMusicKeyboard::changeOctave(uint8_t diff)
+void MagicMusicKeyboard::changeOctave(int8_t diff)
 {
   uint8_t newVal = _noteOffset + diff;
   if (newVal < NOTE_OFFSET_MIN || newVal > NOTE_OFFSET_MAX) {
@@ -310,7 +325,7 @@ void MagicMusicKeyboard::changeKeyArrangement(uint8_t keyArrangeType)
   _keyArrangeType = keyArrangeType;
 }
 
-void MagicMusicKeyboard::transpose(uint8_t diff)
+void MagicMusicKeyboard::transpose(int8_t diff)
 {
   uint8_t newVal = _transposeOffset + diff;
   if (newVal < TRANSPOSE_OFFSET_MIN || newVal > TRANSPOSE_OFFSET_MAX) {
@@ -318,3 +333,12 @@ void MagicMusicKeyboard::transpose(uint8_t diff)
   }
   _transposeOffset = newVal;
 }
+
+void MagicMusicKeyboard::changeVolume(int8_t diff)
+{
+  _volume = constrain(_volume + diff, VOLUME_MIN, VOLUME_MAX);
+  Serial.write(0xB0 | _midiChannel);
+  Serial.write(7);
+  Serial.write(_volume);
+}
+
