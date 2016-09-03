@@ -71,6 +71,10 @@
 #define BTKC_KEYPAD_1 77
 #define BTKC_PAGE_UP 78
 #define BTKC_PAGE_DOWN 79
+#define BTKC_HOME 80
+#define BTKC_END 81
+#define BTKC_INSERT 82
+#define BTKC_DELETE 83
 #define BTKC_TAB 0
 #define BTKC_EUROPE_1 0
 #define BTKC_GRAVE 0
@@ -78,10 +82,6 @@
 #define BTKC_PRINT_SCREEN 0
 #define BTKC_SCROLL_LOCK 0
 #define BTKC_PAUSE 0
-#define BTKC_INSERT 0
-#define BTKC_HOME 0
-#define BTKC_DELETE 0
-#define BTKC_END 0
 #define BTKC_NUM_LOCK 0
 #define BTKC_KEYPAD_DIV 0
 #define BTKC_KEYPAD_MUL 0

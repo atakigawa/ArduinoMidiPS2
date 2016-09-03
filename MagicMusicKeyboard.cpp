@@ -55,6 +55,12 @@
 #define VOLUME_MIN 0
 #define VOLUME_MAX 127
 
+#define MOD_RATE_MIN 0
+#define MOD_RATE_MAX 127
+
+#define MOD_WAVE_TYPE_MIN 0
+#define MOD_WAVE_TYPE_MAX 6
+
 MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_t midiChannel, uint8_t noteOffset)
   :PS2Device(clockPin, dataPin)
 {
@@ -66,6 +72,8 @@ MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_
   _dutyRatio = DUTY_RATIO_DEFAULT;
   _keyArrangeType = KEY_ARRANGE_0;
   _volume = 127;
+  _modulationRate = 5;
+  _modulationWaveType = 0;
 }
 
 MagicMusicKeyboard::~MagicMusicKeyboard()
@@ -277,6 +285,26 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
         changeVolume(-8);
         stateUpdated = true;
       }
+    } else if (btCode == BTKC_HOME) {
+      if (isPressed) {
+        changeModulationRate(8);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_END) {
+      if (isPressed) {
+        changeModulationRate(-8);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_INSERT) {
+      if (isPressed) {
+        changeModulationWaveType(1);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_DELETE) {
+      if (isPressed) {
+        changeModulationWaveType(-1);
+        stateUpdated = true;
+      }
     }
   }
 
@@ -340,5 +368,29 @@ void MagicMusicKeyboard::changeVolume(int8_t diff)
   Serial.write(0xB0 | _midiChannel);
   Serial.write(7);
   Serial.write(_volume);
+}
+
+void MagicMusicKeyboard::changeModulationRate(int8_t diff)
+{
+  _modulationRate = constrain(_modulationRate + diff, MOD_RATE_MIN, MOD_RATE_MAX);
+  Serial.write(0xB0 | _midiChannel);
+  Serial.write(1);
+  Serial.write(_modulationRate);
+}
+
+void MagicMusicKeyboard::changeModulationWaveType(int8_t diff)
+{
+  //  0-15 sin
+  // 16-31 saw
+  // 32-47 reverse saw
+  // 48-63 square(25%)
+  // 64-79 square(50%)
+  // 80-95 triangle
+  // 96-111 random
+  // 112-127 user defined (not used here)
+  _modulationWaveType = constrain(_modulationWaveType + diff, MOD_WAVE_TYPE_MIN, MOD_WAVE_TYPE_MAX);
+  Serial.write(0xB0 | _midiChannel);
+  Serial.write(80);
+  Serial.write(_modulationWaveType * 16);
 }
 

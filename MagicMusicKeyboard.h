@@ -42,6 +42,8 @@ private:
   uint8_t _dutyRatio;
   uint8_t _keyArrangeType;
   uint8_t _volume;
+  uint8_t _modulationRate;
+  uint8_t _modulationWaveType;
 
   bool initReset();
   bool tryRead();
@@ -56,6 +58,8 @@ private:
   void changeKeyArrangement(uint8_t diff);
   void transpose(int8_t diff);
   void changeVolume(int8_t diff);
+  void changeModulationRate(int8_t diff);
+  void changeModulationWaveType(int8_t diff);
 };
 
 #endif //PS2KEYBOARD_H
