@@ -9,7 +9,7 @@ Original functionalities
 - Turn PS2 keyboards into MIDI controllers!
 - Able to connect up to 4 keyboards on the Arduino UNO
 
-This repository further adds some control change functionalities shown below.
+This repository further adds some control changes and miscellaneous functionalities shown below.
 
 ## Control Changes
 
@@ -32,6 +32,9 @@ This repository further adds some control change functionalities shown below.
 	* Delete
 * All Notes Off
 	* Backspace
+
+## Miscs
+
 * Key Arrangement Type
 	* Num Pad 0
 		* Piano Arrangement
@@ -45,3 +48,6 @@ This repository further adds some control change functionalities shown below.
 * I used [this](https://www.amazon.co.jp/dp/B005LL9IYC) Japanese keyboard when mapping keycode to midi notes. Different keyboards may emit different keycodes.
 
 ## Photos
+
+<img src="images/001.png" width="400" />
+<img src="images/002.png" width="400" />
