@@ -37,12 +37,14 @@ public:
 private:
   bool _isInitialized;
   uint8_t _midiChannel;
+  uint8_t _keyArrangeType;
   uint8_t _noteOffset;
   uint8_t _transposeOffset;
-  uint8_t _dutyRatio;
-  uint8_t _keyArrangeType;
   uint8_t _volume;
+  uint8_t _dutyRatio;
   uint8_t _modulationRate;
+  uint8_t _modulationDepth;
+  uint8_t _modulationDelay;
   uint8_t _modulationWaveType;
 
   bool initReset();
@@ -53,12 +55,16 @@ private:
   void midiNoteOff(uint8_t note);
 
   void midiAllNotesOff();
-  void changeOctave(int8_t diff);
-  void changeDutyRatio();
+  
   void changeKeyArrangement(uint8_t diff);
+  void changeOctave(int8_t diff);
   void transpose(int8_t diff);
   void changeVolume(int8_t diff);
+  void changeDutyRatio();
+  void resetModulationSettings();
   void changeModulationRate(int8_t diff);
+  void changeModulationDepth(int8_t diff);
+  void changeModulationDelay(int8_t diff);
   void changeModulationWaveType(int8_t diff);
 };
 

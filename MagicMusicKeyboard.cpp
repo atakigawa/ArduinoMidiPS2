@@ -55,9 +55,17 @@
 #define VOLUME_MIN 0
 #define VOLUME_MAX 127
 
+// modulations
+#define MOD_RATE_DEFAULT 5
 #define MOD_RATE_MIN 0
 #define MOD_RATE_MAX 127
-
+#define MOD_DEPTH_DEFAULT 2
+#define MOD_DEPTH_MIN 1
+#define MOD_DEPTH_MAX 127
+#define MOD_DELAY_DEFAULT 0
+#define MOD_DELAY_MIN 0
+#define MOD_DELAY_MAX 127
+#define MOD_WAVE_TYPE_DEFAULT 0
 #define MOD_WAVE_TYPE_MIN 0
 #define MOD_WAVE_TYPE_MAX 6
 
@@ -72,8 +80,10 @@ MagicMusicKeyboard::MagicMusicKeyboard(uint8_t clockPin, uint8_t dataPin, uint8_
   _dutyRatio = DUTY_RATIO_DEFAULT;
   _keyArrangeType = KEY_ARRANGE_0;
   _volume = 127;
-  _modulationRate = 5;
-  _modulationWaveType = 0;
+  _modulationRate = MOD_RATE_DEFAULT;
+  _modulationDepth = MOD_DEPTH_DEFAULT;
+  _modulationDelay = MOD_DELAY_DEFAULT;
+  _modulationWaveType = MOD_WAVE_TYPE_DEFAULT;
 }
 
 MagicMusicKeyboard::~MagicMusicKeyboard()
@@ -260,49 +270,74 @@ bool MagicMusicKeyboard::processKey(uint8_t btCode, bool isPressed)
         transpose(1);
         stateUpdated = true;
       }
-    } else if (btCode == BTKC_KEYPAD_ADD) {
-      if (isPressed) {
-        changeDutyRatio();
-        stateUpdated = true;
-      }
     } else if (btCode == BTKC_KEYPAD_0) {
       if (isPressed) {
         changeKeyArrangement(KEY_ARRANGE_0);
         stateUpdated = true;
       }
-    } else if (btCode == BTKC_KEYPAD_1) {
+    } else if (btCode == BTKC_KEYPAD_DOT) {
       if (isPressed) {
         changeKeyArrangement(KEY_ARRANGE_1);
         stateUpdated = true;
       }
-    } else if (btCode == BTKC_PAGE_UP) {
+    } else if (btCode == BTKC0_RETURN || btCode == BTKC1_RETURN) {
+      if (isPressed) {
+        changeDutyRatio();
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_KEYPAD_ADD) {
       if (isPressed) {
         changeVolume(8);
         stateUpdated = true;
       }
-    } else if (btCode == BTKC_PAGE_DOWN) {
+    } else if (btCode == BTKC_KEYPAD_ENTER) {
       if (isPressed) {
         changeVolume(-8);
         stateUpdated = true;
       }
-    } else if (btCode == BTKC_HOME) {
+    } else if (btCode == BTKC_PAGE_UP) {
       if (isPressed) {
         changeModulationRate(8);
         stateUpdated = true;
       }
-    } else if (btCode == BTKC_END) {
+    } else if (btCode == BTKC_PAGE_DOWN) {
       if (isPressed) {
         changeModulationRate(-8);
         stateUpdated = true;
       }
+    } else if (btCode == BTKC_HOME) {
+      if (isPressed) {
+        changeModulationDepth(1);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_END) {
+      if (isPressed) {
+        changeModulationDepth(-1);
+        stateUpdated = true;
+      }
     } else if (btCode == BTKC_INSERT) {
       if (isPressed) {
-        changeModulationWaveType(1);
+        changeModulationDelay(16);
         stateUpdated = true;
       }
     } else if (btCode == BTKC_DELETE) {
       if (isPressed) {
+        changeModulationDelay(-16);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_SCROLL_LOCK) {
+      if (isPressed) {
+        changeModulationWaveType(1);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_PRINT_SCREEN) {
+      if (isPressed) {
         changeModulationWaveType(-1);
+        stateUpdated = true;
+      }
+    } else if (btCode == BTKC_PAUSE) {
+      if (isPressed) {
+        resetModulationSettings();
         stateUpdated = true;
       }
     }
@@ -370,12 +405,43 @@ void MagicMusicKeyboard::changeVolume(int8_t diff)
   Serial.write(_volume);
 }
 
+void MagicMusicKeyboard::resetModulationSettings()
+{
+  _modulationRate = MOD_RATE_DEFAULT;
+  _modulationDepth = MOD_DEPTH_DEFAULT;
+  _modulationDelay = MOD_DELAY_DEFAULT;
+  _modulationWaveType = MOD_WAVE_TYPE_DEFAULT;
+  changeModulationRate(0);
+  changeModulationDepth(0);
+  changeModulationDelay(0);
+  changeModulationWaveType(0);
+}
+
 void MagicMusicKeyboard::changeModulationRate(int8_t diff)
 {
-  _modulationRate = constrain(_modulationRate + diff, MOD_RATE_MIN, MOD_RATE_MAX);
+  _modulationRate = constrain(_modulationRate + diff,
+    MOD_RATE_MIN, MOD_RATE_MAX);
   Serial.write(0xB0 | _midiChannel);
   Serial.write(1);
   Serial.write(_modulationRate);
+}
+
+void MagicMusicKeyboard::changeModulationDepth(int8_t diff)
+{
+  _modulationDepth = constrain(_modulationDepth + diff,
+    MOD_DEPTH_MIN, MOD_DEPTH_MAX);
+  Serial.write(0xB0 | _midiChannel);
+  Serial.write(77);
+  Serial.write(_modulationDepth);
+}
+
+void MagicMusicKeyboard::changeModulationDelay(int8_t diff)
+{
+  _modulationDelay = constrain(_modulationDelay + diff,
+    MOD_DELAY_MIN, MOD_DELAY_MAX);
+  Serial.write(0xB0 | _midiChannel);
+  Serial.write(78);
+  Serial.write(_modulationDelay);
 }
 
 void MagicMusicKeyboard::changeModulationWaveType(int8_t diff)
@@ -388,7 +454,8 @@ void MagicMusicKeyboard::changeModulationWaveType(int8_t diff)
   // 80-95 triangle
   // 96-111 random
   // 112-127 user defined (not used here)
-  _modulationWaveType = constrain(_modulationWaveType + diff, MOD_WAVE_TYPE_MIN, MOD_WAVE_TYPE_MAX);
+  _modulationWaveType = constrain(_modulationWaveType + diff,
+    MOD_WAVE_TYPE_MIN, MOD_WAVE_TYPE_MAX);
   Serial.write(0xB0 | _midiChannel);
   Serial.write(80);
   Serial.write(_modulationWaveType * 16);

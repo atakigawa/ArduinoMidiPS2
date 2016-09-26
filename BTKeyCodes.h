@@ -66,28 +66,28 @@
 #define BTKC_ARROW_RIGHT 72
 #define BTKC_ARROW_DOWN 73
 #define BTKC_ARROW_UP 74
-#define BTKC_KEYPAD_ADD 75
-#define BTKC_KEYPAD_0 76
-#define BTKC_KEYPAD_1 77
-#define BTKC_PAGE_UP 78
-#define BTKC_PAGE_DOWN 79
-#define BTKC_HOME 80
-#define BTKC_END 81
-#define BTKC_INSERT 82
-#define BTKC_DELETE 83
+#define BTKC_KEYPAD_0 75
+#define BTKC_KEYPAD_DOT 76
+#define BTKC_KEYPAD_ENTER 77
+#define BTKC_KEYPAD_ADD 78
+#define BTKC_PAGE_UP 79
+#define BTKC_PAGE_DOWN 80
+#define BTKC_HOME 81
+#define BTKC_END 82
+#define BTKC_INSERT 83
+#define BTKC_DELETE 84
+#define BTKC_PRINT_SCREEN 85
+#define BTKC_SCROLL_LOCK 86
+#define BTKC_PAUSE 87
 #define BTKC_TAB 0
 #define BTKC_EUROPE_1 0
 #define BTKC_GRAVE 0
 #define BTKC_CAPS_LOCK 0
-#define BTKC_PRINT_SCREEN 0
-#define BTKC_SCROLL_LOCK 0
-#define BTKC_PAUSE 0
 #define BTKC_NUM_LOCK 0
 #define BTKC_KEYPAD_DIV 0
 #define BTKC_KEYPAD_MUL 0
 #define BTKC_KEYPAD_SUB 0
-#define BTKC_KEYPAD_ENTER 0
-#define BTKC_KEYPAD_DOT 0
+#define BTKC_KEYPAD_1 0
 #define BTKC_KEYPAD_2 0
 #define BTKC_KEYPAD_3 0
 #define BTKC_KEYPAD_4 0
@@ -172,7 +172,7 @@
 #define BTKC0_F11 35
 #define BTKC0_F12 36
 
-#define BTKC0_RETURN 0
+#define BTKC0_RETURN 99
 #define BTKC0_SPACE 0
 
 
@@ -248,7 +248,7 @@
 #define BTKC1_F11 37
 #define BTKC1_F12 38
 
-#define BTKC1_RETURN 0
+#define BTKC1_RETURN 99
 #define BTKC1_SPACE 0
 
 //highest bit masked with 1 is a virtual keycode
