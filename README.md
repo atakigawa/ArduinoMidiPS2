@@ -14,22 +14,30 @@ This repository further adds some control changes and miscellaneous functionalit
 ## Control Changes
 
 * Volume
-	* Page Up
-	* Page Down
+	* Num Pad Add (+)
+	* Num Pad Return (-)
 * Transpose
-	* Up Arrow
-	* Down Arrow
+	* Up Arrow (+1)
+	* Down Arrow (-1)
 * Octave Shift
-	* Left Arrow
-	* Right Arrow
+	* Left Arrow (-1 octave)
+	* Right Arrow (+1 octave)
 * Duty Ratio
-	* Num Pad Plus
+	* Return (cyclic change)
 * Modulation Rate
-	* Home
-	* End
+	* Page Up (+)
+	* Page Down (-)
+* Modulation Depth
+	* Home (+)
+	* End (-)
+* Modulation Delay
+	* Insert (+)
+	* Delete (-)
 * Modulation Wave Type
-	* Insert
-	* Delete
+	* Print Screen (back)
+	* Scroll (next)
+* Reset Modulation Settings
+	* Pause/Break
 * All Notes Off
 	* Backspace
 
@@ -38,7 +46,7 @@ This repository further adds some control changes and miscellaneous functionalit
 * Key Arrangement Type
 	* Num Pad 0
 		* Piano Arrangement
-	* Num Pad 1
+	* Num Pad Dot
 		* Guitar (or Bass) Arrangement
 * Reset Keyboard
 	* Esc
